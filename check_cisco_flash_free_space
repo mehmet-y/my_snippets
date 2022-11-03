@@ -8,10 +8,13 @@ import subprocess
 # $NF = last field
 def flash_free_space(device):
     cmd = "snmpwalk -v 3 -u <snmpv3_username> -l authNoPriv -a SHA -A <snmpv3_password> " + device + " 1.3.6.1.4.1.9.9.10.1.1.4.1.1.5.1 | awk '{print $NF}'"
+    
+    # Command for IOS version
+    # cmd = "snmpwalk -v 3 -u <snmpv3_username> -l authNoPriv -a SHA -A <snmpv3_password> " + device + " 1.3.6.1.2.1.1.1.0"
 
     try:
         command_output = subprocess.check_output(cmd, shell=True).decode("utf-8")
-        return f"{command_output}    {type(command_output)}"
+        return f"{command_output}    {type(command_output)}"     #printing type too, it will be removed in actuall implementation
     except:
         return "No Response from device!!!"
 
