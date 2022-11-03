@@ -1,0 +1,18 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import ipaddress
+
+def valid_ip(address):
+
+    try:
+        ipaddress.ip_address(address)
+        return True
+    except:
+        return False
+
+
+print(valid_ip("1.1.1.1"))       #True
+print(valid_ip("1.1.1.1/32"))    #False
+print(valid_ip("255.1.1.1"))     #True
+print(valid_ip("256.1.1.1"))     #True
