@@ -34,3 +34,11 @@ for device in devices:
         print(connect_device(device, command))
         print()
 
+
+# In order to run for many devices in parallel use concurrent.futures
+"""
+import concurrent.futures
+
+with concurrent.futures.ThreadPoolExecutor(5) as executor:
+    executor.map(connect_device, devices)
+"""
