@@ -1,0 +1,23 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+print(f"{bcolors.HEADER}Color (Pink){bcolors.ENDC}")
+print(f"{bcolors.OKBLUE}Color (Dark Blue){bcolors.ENDC}")
+print(f"{bcolors.OKCYAN}Color (Cyan){bcolors.ENDC}")
+print(f"{bcolors.OKGREEN}Color (Green){bcolors.ENDC}")
+print(f"{bcolors.WARNING}Color (Yellow){bcolors.ENDC}")
+print(f"{bcolors.FAIL}Color (Red){bcolors.ENDC}")
+print(f"{bcolors.ENDC}Color (Grey){bcolors.ENDC}")
+print(f"{bcolors.BOLD}Color (BOLD White){bcolors.ENDC}")
+print(f"{bcolors.UNDERLINE}Color (Underlined Grey){bcolors.ENDC}")
