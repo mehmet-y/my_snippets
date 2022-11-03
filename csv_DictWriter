@@ -1,0 +1,34 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import csv
+
+"""
+device_name   - given
+sn            - from 'show ver | i Processor board ID'
+router_uptime - from 'show ver | i uptime'
+dsl_uptime    - from 'show caller | i PPPo'
+dsl_int       - from 'show ip int brief | i DialerX' (DialerX known per configuration)
+dsl_ip        - from 'show ip int brief | i DialerX' (DialerX known per configuration)
+ce_int        - from 'show ip int brief | i CellularX' (CellularX known per configuration)
+ce_ip         - from 'show ip int brief | i CellularX' (CellularX known per configuration)
+"""
+
+def write_into_csv(device_name, sn, router_uptime, dsl_uptime, dsl_int, dsl_ip, ce_int, ce_ip):
+    with open('<filename>.csv', 'a') as csv_file:
+        fieldnames = ['Device_Name', 'Serial_Number', 'Router_Uptime', 'DSL_Uptime', 'Di0_Status', 'Di0_IP', 'Ce0/2/0_Status', 'Ce0/2/0_IP']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+        writer.writerow({'Device_Name':neid, 'Serial_Number':sn, 'Router_Uptime':router_uptime, 'DSL_Uptime':dsl_uptime, 'Di0_Status':dsl_int, 'Di0_IP':dsl_ip, 'Ce0/2/0_Status':ce_int, 'Ce0
+/2/0_IP':ce_ip})
+
+# 1. Delete content of current file
+with open('<filename>.csv', 'w') as f:
+    pass
+
+# 2. Write Header
+write_into_csv('Device_Name', 'Serial_Number', 'Router_Uptime', 'DSL_Uptime', 'Di0_Status', 'Di0_IP', 'Ce0/2/0_Status', 'Ce0/2/0_IP')
+
+# 3. Fill up remaining: Any function can be used here. Below one is only an imaginary one!!!
+for a, b, c, ,d, e, f, g, h in zip(device, sn, router_uptime, dsl_uptime, dsl_int, dsl_ip, ce_int, ce_ip):
+    write_into_csv(a, b, c, ,d, e, f, g, h)
