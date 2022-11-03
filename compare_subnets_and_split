@@ -1,0 +1,15 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import ipaddress
+
+print(ipaddress.ip_network('192.0.2.1/32').compare_networks(ipaddress.ip_network('192.0.2.2/32')))   #-1  different subnet
+print(ipaddress.ip_network('192.0.2.1/32').compare_networks(ipaddress.ip_network('192.0.2.0/32')))   #1   same subnet
+print(ipaddress.ip_network('192.0.2.1/32').compare_networks(ipaddress.ip_network('192.0.2.1/32')))   #0   exact match
+
+
+print(list(ipaddress.ip_network('192.0.2.0/30').hosts()))                #Provide exact IP Subnet, not like 192.0.2.1/30
+print(list(ipaddress.ip_network('192.0.2.0/30').subnets()))              #Splits subnet into 2 equal subnets
+print(list(ipaddress.ip_network('192.0.2.0/24').subnets()))              #Splits subnet into 2 equal subnets
+print(list(ipaddress.ip_network('192.0.2.0/24').subnets(prefixlen_diff=2)))              #Splits subnet into smaller prefix, 24+2=26, /26 prefixes
+print(list(ipaddress.ip_network('192.0.2.0/24').subnets(prefixlen_diff=3)))              #Splits subnet into smaller prefix, 24+3=27, /27 prefixes
