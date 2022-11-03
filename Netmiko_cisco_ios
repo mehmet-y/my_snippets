@@ -6,6 +6,10 @@ from getpass import getpass
 
 def connect_device(device, command):
     host = {"ip":device.strip(), "username":username, "password":password, "device_type":"cisco_ios", "secret":enable}
+    
+    # for SLOW links
+    # host = {"ip":device.strip(), "username":username, "password":password, "device_type":"cisco_ios", "secret":enable, "global_delay_factor":5}
+    
     try:
         net_connect = Netmiko(**host)
         net_connect.enable()
