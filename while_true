@@ -10,6 +10,6 @@ l = ["a","b","c"]
 while True:
     result = input("please choose a b or c:  ")
     if result not in l:
-        print("WRONG VALUE!!!")
+        print("WRONG VALUE!!! (Enter again)")
     elif result in l:
-        break
+        break                                    # breaks the while loop
