@@ -1,0 +1,21 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import subprocess
+
+# Specify SNMP user and password, and also cheange from SHA to MD5 if require
+# NF = number of fields
+# $NF = last field
+def flash_free_space(device):
+    cmd = "snmpwalk -v 3 -u <snmpv3_username> -l authNoPriv -a SHA -A <snmpv3_password> " + device + " 1.3.6.1.4.1.9.9.10.1.1.4.1.1.5.1 | awk '{print $NF}'"
+
+    try:
+        command_output = subprocess.check_output(cmd, shell=True).decode("utf-8")
+        return f"{command_output}    {type(command_output)}"
+    except:
+        return "No Response from device!!!"
+
+
+devices_list = ["device1","device2"]
+for device in devices_list:
+    print(flash_free_space(device)   # will print only number value of free space
