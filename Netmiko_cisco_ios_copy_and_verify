@@ -1,0 +1,37 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+from netmiko import Netmiko
+from getpass import getpass
+
+def connect_device(device, command):
+    host = {"ip":device.strip(), "username":username, "password":password, "device_type":"cisco_ios", "secret":enable}
+    
+    try:
+        net_connect = Netmiko(**host)
+        net_connect.enable()
+        output = net_connect.send_command_timing(command, delay_factor=30, max_loops=1000)
+        if (command.strip().split()[0] == 'verify) and ('verification_string' in output):   #verification string con be obtained by running verify command on one device
+            print(f"{device}  IOS copied and verified!")
+        elif (command.strip().split()[0] == 'verify) and ('verification_string' not in output):
+            print(f"{device}  IOS not verified!")
+
+    except Exception as ex:
+        print(f"{device} connection FAILED! -  Error message: ", ex)
+
+
+# commands can be extended to include following copy commands, ["copy ftp://<ftp_ip>/c2960x-universalk9-mz.152-7.E6.bin flash", "c2960x-universalk9-mz.152-7.E6.bin", "y"]
+commands = ["verify /md5 flash:/c2960x-universalk9-mz.152-7.E6.bin"]   # sample list of commands
+devices = ["device1", "device2"]   # sample list of devices
+
+username = input("Username: ")
+password = getpass("TACACS+ Password: ")
+enable = getpass("Enable Secret: ")
+
+
+for device in devices:
+    for command in commands:
+        print(device)
+        print("---------------------------------------------------------------------")
+        print(connect_device(device, command))
+        print()
