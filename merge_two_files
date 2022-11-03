@@ -1,0 +1,30 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+"""
+Intention is to merge to files (or to tables) based on specified column
+"""
+
+
+import pandas as pd
+from functools import reduce
+
+
+devices = pd.read_csv('devices.txt') #single column file, each line is device name, and column name is 'device_name'
+output = pd.read_csv('output.csv')   #multiple column file, first column is filled device names, this columns name is 'device_name'
+
+
+data_frames = [devices, output]
+
+# BOTH joins below will produce similar outpur, but order will be different
+# 1. will order using devices as primary reference (left)
+# 2. will order using output as primary referance (right)
+# 3. NOT FOUND values will be filled with N/A
+
+final_df = reduce(lambda left, right: pd.merge(left, right, on='device_name', how='outer'), data_frames).fillna('N/A')
+print(final_df)
+
+print("-------------------------------------------------------------------------------")
+
+final_df2 = reduce(lambda left, right: pd.merge(right, left, on='device_name', how='outer'), data_frames).fillna('N/A')
+print(final_df2)
