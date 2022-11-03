@@ -1,0 +1,108 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+from pysnmp.hlapi import *
+
+
+def construct_snmp_iterator_for_sha(device, snmp_oid):
+    ### Contructing only for 'Authentication Protocol: SHA'
+    """
+    
+    """
+    iterator = f"nextCmd(SnmpEngine(), UsmUserData('{snmp_username}', '{snmp_password}', None, authProtocol=usmHMACSHAAuthProtocol, privProtocol=usmNoPrivProtocol), UdpTransportTarget(('{device}', 161)), ContextData(), ObjectType(ObjectIdentity('{snmp_oid}')), lookupMib=False, lexicographicMode=False)"
+    return eval(iterator)
+
+
+def construct_getCmd_snmp_iterator_for_sha(device, snmp_oid):
+    ### Contructing only for 'Authentication Protocol: SHA'
+    """
+    Example for 'Authentication Protocol: MD5'
+    (errorIndication, errorStatus, errorIndex, varBinds) in getCmd(SnmpEngine(), UsmUserData(snmp_username, snmp_password), UdpTransportTarget((item, 161)), ContextData(), ObjectType(ObjectIdentity(snmp_oid)), lookupMib=True, lexicographicMode=True)
+    """
+    iterator = f"getCmd(SnmpEngine(), UsmUserData('{snmp_username}', '{snmp_password}', None, authProtocol=usmHMACSHAAuthProtocol, privProtocol=usmNoPrivProtocol), UdpTransportTarget(('{device}', 161)), ContextData(), ObjectType(ObjectIdentity('{snmp_oid}')), lookupMib=False, lexicographicMode=False)"
+    return eval(iterator)
+
+
+
+def snmpwalk(device, iterator, description):
+    #snmpwalk_response_list = []
+    snmpwalk_response_dict = {}
+    snmpwalk_response_dict[description] = []
+    for (errorIndication, errorStatus, errorIndex, varBinds) in iterator:
+        if errorIndication:
+            print(device, "ERROR: ", errorIndication)
+            break
+        elif errorStatus:
+            print('ERROR STATUS: %s at %s' % (errorStatus.prettyPrint(), errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
+            break
+        else:
+            for varBind in varBinds:
+                snmp_response = ' = '.join([x.prettyPrint() for x in varBind])
+                snmpwalk_response_dict[description].append(snmp_response)
+
+    return snmpwalk_response_dict
+
+
+
+
+snmp_username = "<enter_username_here>"
+snmp_password = "<enter_password_here>"
+device = "<enter_devicename_or_ip_here>"
+
+d = {}
+
+ifxAlias = "1.3.6.1.2.1.31.1.1.1.18"
+ifDescr = "1.3.6.1.2.1.2.2.1.2"
+ipAdEntIfIndex = "1.3.6.1.2.1.4.20.1.2"
+adslMibObjects = "1.3.6.1.2.1.10.94.1.1"
+wanGsm = "1.3.6.1.4.1.9.9.661.1.3"
+ifAdminStatus = "1.3.6.1.2.1.2.2.1.7"
+ifOperStatus = "1.3.6.1.2.1.2.2.1.8"
+sysDescr = "1.3.6.1.2.1.1.1"
+whyReload = "1.3.6.1.4.1.9.2.1.2"
+entity_mib_model = "1.3.6.1.2.1.47.1.1.1.1.7.1"
+entity_mib_ios = "1.3.6.1.2.1.47.1.1.1.1.10.3"
+entity_mib_sn = "1.3.6.1.2.1.47.1.1.1.1.11.1"
+sysLocation = "1.3.6.1.2.1.1.6"
+sysName = "1.3.6.1.2.1.1.5"
+
+
+iterator_int_desc = construct_snmp_iterator_for_sha(device, ifxAlias)
+iterator_int_name = construct_snmp_iterator_for_sha(device, ifDescr)
+iterator_ip_addr = construct_snmp_iterator_for_sha(device, ipAdEntIfIndex)
+iterator_adsl_objects = construct_snmp_iterator_for_sha(device, adslMibObjects)
+iterator_wan_gsm = construct_snmp_iterator_for_sha(device, wanGsm)
+iterator_admin_stat = construct_snmp_iterator_for_sha(device, ifAdminStatus)
+iterator_oper_stat = construct_snmp_iterator_for_sha(device, ifOperStatus)
+iterator_sys_descr = construct_snmp_iterator_for_sha(device, sysDescr)
+iterator_why_reload = construct_snmp_iterator_for_sha(device, whyReload)
+iterator_entity_mib_model = construct_getCmd_snmp_iterator_for_sha(device, entity_mib_model)
+iterator_entity_mib_ios = construct_getCmd_snmp_iterator_for_sha(device, entity_mib_ios)
+iterator_entity_mib_sn = construct_getCmd_snmp_iterator_for_sha(device, entity_mib_sn)
+iterator_sys_location = construct_snmp_iterator_for_sha(device, sysLocation)
+iterator_sys_name = construct_snmp_iterator_for_sha(device, sysName)
+
+
+device_interface_description = snmpwalk(device, iterator_int_desc, "int_desc")
+device_interface_name = snmpwalk(device, iterator_int_name, "int_name")
+device_ip_addr = snmpwalk(device, iterator_ip_addr, "ip_addr")
+device_adsl_objects = snmpwalk(device, iterator_adsl_objects, "adsl_objects")
+device_wan_gsm = snmpwalk(device, iterator_wan_gsm, "wan_gsm")
+device_admin_stat = snmpwalk(device, iterator_admin_stat, "admin_stat")
+device_oper_stat = snmpwalk(device, iterator_oper_stat, "oper_stat")
+device_sys_descr = snmpwalk(device, iterator_sys_descr, "sys_descr")
+device_why_reload = snmpwalk(device, iterator_why_reload, "why_reload")
+device_entity_mib_model = snmpwalk(device, iterator_entity_mib_model, "entity_mib_model")
+device_entity_mib_ios = snmpwalk(device, iterator_entity_mib_ios, "entity_mib_ios")
+device_entity_mib_sn = snmpwalk(device, iterator_entity_mib_sn, "entity_mib_sn")
+device_sys_location = snmpwalk(device, iterator_sys_location, "sys_location")
+device_sys_name = snmpwalk(device, iterator_sys_name, "sys_name")
+
+#interfaces = concatenate_int_snmp(device_ip_addr["ip_addr"], device_interface_description["int_desc"], device_interface_name["int_name"], device_admin_stat["admin_stat"], device_oper_stat["oper_stat"])    # this funxtion excluded
+#d.update(**interfaces, **device_adsl_objects, **device_wan_gsm, **device_sys_descr, **device_why_reload, **device_entity_mib_model, **device_entity_mib_ios, **device_entity_mib_sn, **device_sys_location, **device_sys_name)
+
+
+d.update(**device_adsl_objects, **device_wan_gsm, **device_sys_descr, **device_why_reload, **device_entity_mib_model, **device_entity_mib_ios, **device_entity_mib_sn, **device_sys_location, **device_sys_name)
+
+print(d)      #### printing dictionary, it can be parsed for other purposes
+
