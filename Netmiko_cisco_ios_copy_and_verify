@@ -19,8 +19,8 @@ def connect_device(device, command):
     except Exception as ex:
         print(f"{device} connection FAILED! -  Error message: ", ex)
 
-
-# commands can be extended to include following copy commands, ["copy ftp://<ftp_ip>/c2960x-universalk9-mz.152-7.E6.bin flash", "c2960x-universalk9-mz.152-7.E6.bin", "y"]
+# selected sample ios file is c2960x-universalk9-mz.152-7.E6.bin
+# commands can be extended to include following copy commands, ["copy ftp://<ftp_ip_and_directory>/c2960x-universalk9-mz.152-7.E6.bin flash", "c2960x-universalk9-mz.152-7.E6.bin", "y"]
 commands = ["verify /md5 flash:/c2960x-universalk9-mz.152-7.E6.bin"]   # sample list of commands
 devices = ["device1", "device2"]   # sample list of devices
 
