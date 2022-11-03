@@ -12,7 +12,22 @@ def valid_ip(address):
         return False
 
 
+def valid_ip_network(address):
+
+    try:
+        ipaddress.ip_network(address)
+        return True
+    except:
+        return False
+
 print(valid_ip("1.1.1.1"))       #True
 print(valid_ip("1.1.1.1/32"))    #False
 print(valid_ip("255.1.1.1"))     #True
-print(valid_ip("256.1.1.1"))     #True
+print(valid_ip("256.1.1.1"))     #False
+print()
+print(valid_ip_network("1.1.1.1"))       #True
+print(valid_ip_network("1.1.1.1/32"))    #True
+print(valid_ip_network("255.1.1.1"))     #True
+print(valid_ip_network("256.1.1.1"))     #False
+print(valid_ip_network("255.1.1.1/33"))  #False
+
