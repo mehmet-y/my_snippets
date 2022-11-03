@@ -1,0 +1,24 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import logging
+
+"""
+Logging Levels:
+--------------------------
+Level       Numeric value
+CRITICAL    50
+ERROR       40
+WARNING     30
+INFO        20
+DEBUG       10
+NOTSET      0
+"""
+
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s:%(levelname)s:%(message)s')   # will log only WARNING, ERROR, CRITICAL
+
+logging.info("Script Started! INFO!")      # Won't print, because basic config is for WARNING and above
+logging.debug("Script DEBUG!")             # won't print
+logging.error("Script ERROR!")             # will print
+logging.warning("Script WARNING!")         # will print
+logging.critical("Script CRITICAL!")       # will print
