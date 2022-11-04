@@ -1,0 +1,12 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+devices_dict = {"hsot1":"ip1", "host2":"ip2", "host3":"ip3"}
+for n, (key, value) in enumerate(devices_dict.items()):
+    print("n, (key, value): ", n, (key, value))
+
+devices_list = ["host1", "host2", "host3"]
+for n, item in enumerate(devices_list):
+    print(n, item)
+
+
