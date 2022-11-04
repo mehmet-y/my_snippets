@@ -1,0 +1,10 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import csv
+
+with open("<file_name>.csv", newline="") as devices_file:
+    devices_dict = csv.DictReader(devices_file)
+    for row in devices_dict:    # Each row is a OrderedDict representing a line in file
+        #print(row)
+        print(f"{row['row1_name']}  {row['row5_name']}")   # to demonstrate how column names will be accessed in each row
