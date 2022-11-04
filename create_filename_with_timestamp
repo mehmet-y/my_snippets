@@ -1,0 +1,30 @@
+
+#!/home/repos/public/Python/bin/python3.6
+#
+
+from time import strftime
+from os import chmod, chown
+
+
+def create_file_with_timestamp_and_status_in_name(status):
+    # Output Filename will have start time and selected status step option in file name.
+    timestr_out = strftime(f"output_%d%m%Y-%H%M%S_{status}.txt")
+    out_file = open(timestr_out, "w+")
+
+    # Changing permitions on file, in order everyone to have remove capability.
+    chmod(timestr_out, 0o777)
+
+    return out_file
+
+for status in ["phase1", "phase2", "phase3"]:
+    create_file_with_timestamp_and_status_in_name(status)
+
+
+"""
+Script Output:
+-------------------------------------------------------------------------------------
+-rwxrwxrwx.  1 x_user users    0 Nov  4 17:36 output_04112022-173605_phase1.txt
+-rwxrwxrwx.  1 x_user users    0 Nov  4 17:36 output_04112022-173605_phase2.txt
+-rwxrwxrwx.  1 x_user users    0 Nov  4 17:36 output_04112022-173605_phase3.txt
+
+"""
