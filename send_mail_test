@@ -1,0 +1,32 @@
+#!/home/repos/public/Python/bin/python3.6
+#
+
+import smtplib
+
+fr = 'abc@abc.com'
+to = 'abc2@abc.com'
+
+mail_body = open('mail_body.txt', 'r')
+TEXT2 = ''.join(mail_body.readlines())
+#print(TEXT2)
+
+SUBJECT = 'Hello!'
+TEXT = 'This is the body of text!'
+#message = f'Subject: {SUBJECT}\n\n{TEXT}'
+message = f'Subject: {SUBJECT}\n\n{TEXT2}'
+
+
+s = smtplib.SMTP('localhost')
+s.sendmail(fr, to, message)
+s.quit()
+
+mail_body.close()
+
+
+"""
+create file named 'mail_body.txt', example test content below:
+
+This is the body of the text.
+It is derived from 'mail_body.txt' file!!!
+"""
+
